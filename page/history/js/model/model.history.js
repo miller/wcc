@@ -1,0 +1,4 @@
+Chassis.Model.define( 'history', {
+    
+} );
+

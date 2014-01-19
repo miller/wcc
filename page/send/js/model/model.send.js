@@ -1,0 +1,3 @@
+Chassis.Model.define( 'send', {
+
+} );
