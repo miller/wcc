@@ -1,3 +1,26 @@
 <script id="receive-template" type="text/x-template">
-    
+<ul class="receiver-list">
+    {#list}
+    <li data-cid="{cid}">
+    <div id="receiver{cid}" class="receiver-box{?selected} selected{/selected}">
+        <div class="photo-box" id="receiver-photo-box">
+            <img src="{photo}"/>
+            <div class="status-selected">
+                <span class="icon-selected"></span>
+            </div>
+        </div>
+        <p class="receiver-name">
+            {name}
+        </p>
+        <div class="progress-box">
+            <div class="progressbar">
+                <div class="stack"></div>
+                <div class="progress"></div>
+            </div>
+            <label></label>
+        </div>
+    </div>
+    </li>
+    {/list}
+</ul>
 </script>

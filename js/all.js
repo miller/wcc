@@ -3678,7 +3678,7 @@ Loading.mixToView();
 
     // 配置事件
     events: {
-        
+        'click .btn-back': function(){ window.history.back();}
     },
 
     init: function( opts ) {
@@ -3690,41 +3690,26 @@ Loading.mixToView();
 
     }
 } );;Chassis.Model.define( 'index', {
-
-    url : function() {
-        return 'data/albums.php';
-    },
     
-    parse : function( resp ) {
-        var album_list = resp.plaze_album_list.RM.album_list,
-            list = album_list.list;
-
-        for( var i = 0, len = list.length; i < len; i++ ) {
-            list[ i ].rank = i + 1;
-        }
-
-        return album_list;
-    }
 } );
 ;Chassis.PageView.define( 'index', {
     
     // 设置PageView所在的DOM
-    el: '#album-list',
+    el: '#page-index',
 
     // 配置事件
     events: {
-        // 监听model change
-        'change model': 'onModelChange',
-        // 监听model error
-        'error model': 'onModelError'
     },
 
     init: function( opts ) {
+        /*
         this.model = Chassis.Model.create( 'index' );
         this.tpl = {};
         this.tpl.list = dust.compile( 
             $( '#index-template' ).html(), 'index-list' );
-    },
+        */
+    }
+    /*,
 
     // 在APP路由到当前页面之前会调用该方法
     onBeforePageIn: function() {
@@ -3736,7 +3721,9 @@ Loading.mixToView();
             this.model.fetch();
             this.model.fetched = true;
         }
-    },
+    }
+
+    ,
 
     onModelChange: function( ) {
         var me = this;
@@ -3751,17 +3738,87 @@ Loading.mixToView();
             // 隐藏Loading
             me.hideLoading();
         } )
+    }
+    */
+} );;Chassis.Model.define( 'receive', {
+    init: function() {
+        this.listMap = {};
     },
 
-    onModelError: function( ) {
+    defaults: {
+        list: []
+    },
 
-        // 渲染模板并输出
-        this.$el.html( '<h4>数据获取失败</h4>' );
+    add: function( person ) {
+        var cid = person.cid,
+            me = this;
 
+        if( !this.listMap[ cid ] ) {
+            this.get( 'list' ).push( person );
+            this.listMap[ cid ] = this.get( 'list' ).length;
+
+            person.on( 'change', function() {
+                me.trigger( 'change' );
+            } );
+
+            this.trigger( 'change' );
+        }
+    },
+
+    remove: function( cid ) {
+        var me = this,
+            idx = this.listMap[ cid ];
+
+        if( idx ) {
+            this.get( 'list' )[ idx - 1 ] = null;
+            delete this.listMap[ cid ];
+
+            this.trigger( 'change' );
+        }
+    },
+
+    clear: function() {
+        this.set( 'list', [] );
+        this.listMap = {};
+        this.trigger( 'change' );
+    },
+
+    selectedCount: function() {
+        var any = 0;
+        $.each( this.get( 'list' ), function( idx, person ) {
+            if( person.get( 'selected' ) ) {
+                any++;
+            }
+        } );
+
+        return any;
+    },
+
+    anyselected: function() {
+        return this.selectedCount() > 0;
+    },
+
+    getPerson: function( cid ) {
+        var idx = this.listMap[ cid ];
+
+        return this.get( 'list' )[ idx - 1 ];
+    },
+
+    toJSON: function() {
+        var data = Chassis.Model.receive.__super__.toJSON.call( this ),
+            list = [];
+
+        $.each( data.list, function( idx, person ) {
+
+            if( person.toJSON ) {
+                list[ idx ] = person.toJSON();
+            }
+        } );
+
+        return {
+            list: list
+        };
     }
-} );;Chassis.Model.define( 'receive', {
-
-    
 } );
 ;Chassis.PageView.define( 'receive', {
     
@@ -3770,16 +3827,84 @@ Loading.mixToView();
 
     // 配置事件
     events: {
-        
+        'click .receiver-list li': 'toggle',
+        'change model': 'onModelChanged'
     },
 
     init: function( opts ) {
-        
+        this.els = {
+            '$waveChildren': this.$el.find( '#wave' ).children(),
+            '$receiverList': this.$el.find( '#wait-receiver-list' ),
+            '$waitingText': this.$el.find( '#waiting-text' ),
+            '$addBtn': this.$el.find( '#btn-add' ),
+            '$wavebg': this.$el.find( '.wavebg' )
+        };
+
+        app.models.receivers = this.model = Chassis.Model.create( 'receive' );
+        this.tpl = {};
+        this.tpl.list = dust.compile( 
+            $( '#receive-template' ).html(), 'receive-list' );
     },
 
     // 在APP路由到当前页面之前会调用该方法
     onBeforePageIn: function() {
+        var me = this;
 
+        me.model.clear();
+
+        // 模拟效果
+        setTimeout( function() {
+            me.model.add( new app.models.person({
+                name: 'Miller'
+            }) );
+        }, 3000 );
+
+        setTimeout( function() {
+            me.model.add( new app.models.person({
+                name: '张自萌'
+            }) );
+        }, 3800 );
+
+        setTimeout( function() {
+            me.model.add( new app.models.person({
+                name: '张自萌2'
+            }) );
+        }, 5000 );
+    },
+
+    toggle: function( evt ) {
+        var li = $( evt.target ).closest( 'li' ),
+            person = this.model.getPerson( li.attr( 'data-cid' ) );
+
+        if( person ) {
+            person.set( 'selected', !person.get( 'selected' ) );
+        }
+    },
+
+    onModelChanged: function() {
+        // console.log( this.model.toJSON() );
+        var me = this,
+            data = this.model.toJSON();
+
+        dust.loadSource( this.tpl.list );
+        dust.render( 'receive-list', data, function( err, out ) {
+            me.els.$receiverList.html( out );
+        } );
+
+        if( this.model.anyselected() ) {
+            this.els.$addBtn.show();
+        }
+        else {
+            this.els.$addBtn.hide();
+        }
+
+        if( data.list.length ) {
+            this.els.$wavebg.removeClass( 'wave' );
+        }
+        else {
+            this.els.$wavebg.addClass( 'wave' );
+            me.els.$receiverList.html( '' );
+        }
     }
 } );;Chassis.Model.define( 'send', {
 
@@ -3791,16 +3916,58 @@ Loading.mixToView();
 
     // 配置事件
     events: {
-        
+        'click .receiver-col': 'toggle',
+        'click .btn-close': function(){ window.history.back();},
+        'change model': 'onModelChanged'
     },
 
     init: function( opts ) {
-        
+        this.model = app.models.receivers;
+
+        this.els = {
+            '$sendBtn': this.$el.find( '.btn-send' ),
+            '$receivers': this.$el.find( '#explorer-receivers' ),
+            '$count': this.$el.find( '#receiver-count' )
+        };
+
+        this.tpl = {};
+        this.tpl.list = dust.compile( 
+            $( '#send-template' ).html(), 'send-list' );
+
+        this.onModelChanged();
     },
 
     // 在APP路由到当前页面之前会调用该方法
     onBeforePageIn: function() {
 
+    },
+
+    toggle: function( evt ) {
+        var container = $( evt.currentTarget ),
+            person = this.model.getPerson( container.attr( 'data-cid' ) );
+
+        if( person ) {
+            person.set( 'selected', !person.get( 'selected' ) );
+        }
+    },
+
+    onModelChanged: function() {
+        var me = this,
+            data = this.model.toJSON();
+
+        dust.loadSource( this.tpl.list );
+        dust.render( 'send-list', data, function( err, out ) {
+            me.els.$receivers.html( out );
+        } );
+
+        if( this.model.anyselected() ) {
+            this.els.$sendBtn.show();
+        }
+        else {
+            this.els.$sendBtn.hide();
+        }
+
+        this.els.$count.html( this.model.selectedCount() );
     }
 } );;Chassis.Model.define( 'share', {
 
@@ -3825,7 +3992,26 @@ Loading.mixToView();
     onBeforePageIn: function() {
 
     }
-} );;( function() {
+} );;window.app = {
+    models: {}
+};
+
+app.models.person = Chassis.Model.extend({
+    defaults : {
+        cid: '', 
+        ip:'', 
+        name : '',
+        connected:false,
+        transfered:0,
+        selected:false,
+        photo:'http://tp4.sinaimg.cn/2129028663/180/5684393877/1'  
+    },
+    init: function() {
+        this.set( 'cid', this.cid );
+    }
+});
+;( function() {
+
     // 减少命名空间调用层级
     // Chassis.mixin( window, Chassis );
 
@@ -3842,5 +4028,9 @@ Loading.mixToView();
 
     // 显示App Loading
     Chassis.Loading.Global.show();
+
+    $(function(){
+        Chassis.Loading.Global.hide();
+    });
 
 } )();

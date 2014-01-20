@@ -1,0 +1,224 @@
+.wavebg{
+    position: absolute;
+}
+
+.wavebg div{
+    position: absolute;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.wavebg div:nth-child(1){
+    left: -25px;
+    top: -25px;
+    width:130px;
+    height:130px;
+    -webkit-border-radius: 75px;
+}
+.wavebg div:nth-child(2){
+    left: -50px;
+    top: -50px;
+    width:180px;
+    height:180px;
+    -webkit-border-radius: 90px;
+}
+.wavebg div:nth-child(3){
+    left: -75px;
+    top: -75px;
+    width:230px;
+    height:230px;
+    -webkit-border-radius: 230px;
+}
+.wavebg div:nth-child(4){
+    left: -100px;
+    top: -100px;
+    width:280px;
+    height:280px;
+    -webkit-border-radius: 280px;
+}
+.wavebg div:nth-child(5){
+    left: -125px;
+    top: -125px;
+    width:330px;
+    height:330px;
+    -webkit-border-radius: 330px;
+}
+.wavebg div:nth-child(6){
+    left: -150px;
+    top: -150px;
+    width:380px;
+    height:380px;
+    -webkit-border-radius: 380px;
+}
+.wavebg div:nth-child(7){
+    left: -175px;
+    top: -175px;
+    width:430px;
+    height:430px;
+    -webkit-border-radius: 430px;
+}
+.wavebg div:nth-child(8){
+    left: -200px;
+    top: -200px;
+    width:480px;
+    height:480px;
+    -webkit-border-radius: 480px;
+}
+.wavebg div:nth-child(9){
+    left: -225px;
+    top: -225px;
+    width:530px;
+    height:530px;
+    -webkit-border-radius: 530px;
+}
+.wavebg div:nth-child(10){
+    left: -250px;
+    top: -250px;
+    width:580px;
+    height:580px;
+    -webkit-border-radius: 580px;
+}
+.wavebg div:nth-child(11){
+    left: -275px;
+    top: -275px;
+    width:630px;
+    height:630px;
+    -webkit-border-radius: 630px;
+}
+.wavebg div:nth-child(12){
+    left: -300px;
+    top: -300px;
+    width:680px;
+    height:680px;
+    -webkit-border-radius: 680px;
+}
+
+/*动画效果*/
+.wavebg.wave  div{
+    opacity: 0;
+    /*-webkit-transition: opacity 0.1s linear;*/
+    -webkit-animation-duration: 3.6s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: both;
+}
+
+.wavebg.wave  div:nth-child(12){
+    -webkit-animation-name: wave12;
+}
+
+.wavebg.wave  div:nth-child(11){
+    -webkit-animation-name: wave11;
+}
+
+.wavebg.wave  div:nth-child(10){
+    -webkit-animation-name: wave10;
+}
+
+.wavebg.wave  div:nth-child(9){
+    -webkit-animation-name: wave9;
+}
+
+.wavebg.wave  div:nth-child(8){
+    -webkit-animation-name: wave8;
+}
+
+.wavebg.wave  div:nth-child(7){
+    -webkit-animation-name: wave7;
+}
+
+.wavebg.wave  div:nth-child(6){
+    -webkit-animation-name: wave6;
+}
+
+.wavebg.wave  div:nth-child(5){
+    -webkit-animation-name: wave5;
+}
+
+.wavebg.wave  div:nth-child(4){
+    -webkit-animation-name: wave4;
+}
+
+.wavebg.wave  div:nth-child(3){
+    -webkit-animation-name: wave3;
+}
+
+.wavebg.wave  div:nth-child(2){
+    -webkit-animation-name: wave2;
+}
+
+.wavebg.wave  div:nth-child(1){
+    -webkit-animation-name: wave1;
+}
+
+@-webkit-keyframes wave1{
+    0% { opacity: 0; }
+    8.33% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave2{
+    8.33% { opacity: 0; }
+    16.66% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave3{
+    16.66% { opacity: 0; }
+    24.99% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave4{
+    24.99% { opacity: 0; }
+    33.32% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave5{
+    33.32% { opacity: 0; }
+    41.65% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave6{
+    41.65% { opacity: 0; }
+    49.98% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave7{
+    49.98% { opacity: 0; }
+    58.31% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave8{
+    58.31% { opacity: 0; }
+    66.64% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave9{
+    66.64% { opacity: 0; }
+    74.97% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave10{
+    74.97% { opacity: 0; }
+    83.30% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave11{
+    83.30% { opacity: 0; }
+    91.63% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+@-webkit-keyframes wave12{
+    91.63% { opacity: 0; }
+    99.96% { opacity: 1; }
+    100%{opacity: 1}
+}
+
+

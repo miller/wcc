@@ -5,7 +5,7 @@ Chassis.PageView.define( 'history', {
 
     // 配置事件
     events: {
-        
+        'click .btn-back': function(){ window.history.back();}
     },
 
     init: function( opts ) {

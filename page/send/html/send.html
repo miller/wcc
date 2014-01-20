@@ -1,11 +1,45 @@
 <!--页面开始-->
 <div id="page-send" class="page page-send">
-    <h1>发送页面</h1>
-    <p>
-        <a href="javascript:history.back();"><-返回</a>
-    </p>
-    <p>
-        <a href="#history">确认发送</a>
-    </p>
+    <div class="explorer-header">
+        <button class="btn-close"></button>
+        <div id="explorer-receivers">
+        </div>
+    </div>
+    <div class="explorer-body">
+        <div class="explorer-tab">
+            <button class="type-video selected"></button>
+            <button class="type-photo"></button>
+            <button class="type-music"></button>
+            <button class="type-app"></button>
+            <button class="type-doc"></button>
+        </div>
+        <div class="explorer-list" id="explorer-list">
+            <div id="video-list" style="-webkit-transition: 0ms cubic-bezier(0.1, 0.57, 0.1, 1); transition: 0ms cubic-bezier(0.1, 0.57, 0.1, 1); -webkit-transform: translate(0px, 0px) translateZ(0px);">
+                <div class="video-list">
+                    <div>
+                        <div class="video-box">
+                            <div class="video-photo icon-play">
+                                <img src="http://res.yyets.com/ftp/2013/0628/44f52febb21f4d8af066ff75ef486a4d.jpg">
+                                <label>45:11</label>
+                            </div>
+                            <div class="video-detail">
+                                <p class="video-name">
+                                    哈哈
+                                </p>
+                                <p class="video-size">
+                                    100MB
+                                </p>
+                            </div>
+                            <span class="icon-sel"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="explorer-footer" id="explorer-footer" style="display: block;">
+        <p class="tips">已选择<label><font id="receiver-count">1</font>位</label>小伙伴发文件</p>
+        <a href="#history" class="btn-send">确认发送</a>
+    </div>
 </div>
 <!--页面结束-->

@@ -1,4 +1,5 @@
 ( function() {
+
     // 减少命名空间调用层级
     // Chassis.mixin( window, Chassis );
 
@@ -15,5 +16,9 @@
 
     // 显示App Loading
     Chassis.Loading.Global.show();
+
+    $(function(){
+        Chassis.Loading.Global.hide();
+    });
 
 } )();

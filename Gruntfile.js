@@ -20,6 +20,7 @@ module.exports = function(grunt) {
           'css/globalloading.css',
           'css/pageloading.css',
           'css/app.css',
+          'css/wave.css',
           'page/*/*/*.css'
         ],
         dest: 'css/all.css'
@@ -33,6 +34,7 @@ module.exports = function(grunt) {
           'js/vendor/dust-full-0.3.0.min.js',
           'js/vendor/chassis.js',
           'page/*/*/*/*.js',
+          'js/model/*.js',
           'js/init.js'
         ],
         dest: 'js/all.js'

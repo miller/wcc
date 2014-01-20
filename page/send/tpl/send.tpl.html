@@ -1,3 +1,17 @@
 <script id="send-template" type="text/x-template">
-    
+<div class="explorer-receivers">
+    {#list}
+    <div>
+        <div class="receiver-col" data-cid="{cid}">
+            <div class="receiver-photo{?selected} selected{/selected}">
+                <img src="{photo}">
+                <div class="status-selected">
+                    <span class="icon-selected"></span>
+                </div>
+            </div>
+            <label class="receiver-name"> {name} </label>
+        </div>
+    </div>
+    {/list}
+</div>
 </script>
